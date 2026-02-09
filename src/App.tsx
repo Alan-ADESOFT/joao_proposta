@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import Header from "@/components/Header";
+import ShippingBanner from "@/components/ShippingBanner";
 import Footer from "@/components/Footer";
 import Index from "./pages/Index";
 import LentesPage from "./pages/LentesPage";
