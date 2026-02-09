@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { lenses, frames } from "@/data/products";
+import { lenses, frames, ProductVariation } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, ArrowLeft, ShieldCheck, Truck, RefreshCw } from "lucide-react";
@@ -8,6 +9,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const { addItem } = useCart();
   const product = [...lenses, ...frames].find((p) => p.id === id);
+  const [selectedVariation, setSelectedVariation] = useState<ProductVariation | null>(null);
 
   if (!product) {
     return (
@@ -18,6 +20,8 @@ const ProductDetailPage = () => {
     );
   }
 
+  const currentImage = selectedVariation?.image || product.image;
+
   return (
     <div className="container mx-auto px-4 py-10">
       <Link to={product.category === "lente" ? "/lentes" : "/armacoes"} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6">
@@ -25,8 +29,8 @@ const ProductDetailPage = () => {
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="aspect-square rounded-lg overflow-hidden bg-secondary">
-          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+        <div className="aspect-square rounded-xl overflow-hidden bg-secondary">
+          <img src={currentImage} alt={product.name} className="w-full h-full object-cover transition-all duration-300" />
         </div>
 
         <div className="flex flex-col justify-center">
@@ -38,11 +42,41 @@ const ProductDetailPage = () => {
 
           <div className="flex flex-wrap gap-2 mt-6">
             {Object.entries(product.filters).map(([k, v]) => (
-              <span key={k} className="text-xs font-medium bg-secondary text-muted-foreground px-3 py-1 rounded-full">
+              <span key={k} className="text-xs font-medium bg-secondary text-muted-foreground px-3 py-1.5 rounded-full">
                 {v}
               </span>
             ))}
           </div>
+
+          {/* Variations */}
+          {product.variations && product.variations.length > 0 && (
+            <div className="mt-8">
+              <h3 className="text-sm font-semibold text-foreground mb-3">
+                {product.category === "armacao" ? "Cores disponíveis" : "Variações"}
+              </h3>
+              <div className="flex gap-3">
+                {product.variations.map((v) => (
+                  <button
+                    key={v.id}
+                    onClick={() => setSelectedVariation(selectedVariation?.id === v.id ? null : v)}
+                    className={`flex flex-col items-center gap-1.5 p-2 rounded-lg border-2 transition-all ${
+                      selectedVariation?.id === v.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/40"
+                    }`}
+                  >
+                    {v.colorHex && (
+                      <div
+                        className="w-8 h-8 rounded-full border-2 border-border"
+                        style={{ backgroundColor: v.colorHex }}
+                      />
+                    )}
+                    <span className="text-xs font-medium text-muted-foreground">{v.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-8">
             <span className="text-3xl font-bold text-primary">R$ {product.price.toFixed(2).replace(".", ",")}</span>
