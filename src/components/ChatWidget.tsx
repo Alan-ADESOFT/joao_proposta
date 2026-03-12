@@ -25,16 +25,6 @@ interface UserInfo {
 
 type ChatStep = "form" | "chat" | "frete_input" | "frete_result";
 
-// Demo responses for quick action buttons
-const DEMO_RESPONSES: Record<string, string> = {
-  "👓 Lentes": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu teria todas as informacoes sobre lentes disponiveis, precos e recomendacoes personalizadas.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-  "🕶️ Armacoes": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu mostraria todo o catalogo de armacoes com modelos, marcas e precos atualizados.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-  "💳 Pagamento": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu informaria todas as formas de pagamento: cartao, PIX, boleto, parcelamento e condicoes especiais.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-  "🔄 Trocas": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu explicaria toda a politica de trocas e devolucoes com prazos e procedimentos.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-  "📍 Localizacao": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu mostraria o endereco completo, horario de funcionamento e ate um link do mapa.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-  "🧑 Atendente": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu encaminharia voce diretamente para um atendente humano via WhatsApp.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
-};
-
 const QUICK_ACTIONS = [
   { label: "👓 Lentes", msg: "Quais lentes voces tem disponiveis e os precos?" },
   { label: "🕶️ Armacoes", msg: "Quais armacoes voces tem? Quero ver os modelos e precos." },
@@ -93,41 +83,6 @@ const ChatWidget = () => {
     setStep("chat");
   };
 
-  // Handle quick action button click with demo response
-  const handleQuickAction = useCallback((action: typeof QUICK_ACTIONS[0]) => {
-    if (isLoading) return;
-
-    const userMsg: Message = { role: "user", content: action.msg };
-    setMessages((prev) => [...prev, userMsg]);
-    setShowQuickActions(false);
-    setIsLoading(true);
-
-    // Special case: frete still goes through the normal flow
-    if (action.label === "📦 Calcular Frete") {
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "Claro! Vou te ajudar a calcular o frete. 📦\nDigite seu CEP abaixo:" },
-        ]);
-        setStep("frete_input");
-        setIsLoading(false);
-      }, 800);
-      return;
-    }
-
-    // Show demo response for other buttons
-    const demoReply = DEMO_RESPONSES[action.label];
-    if (demoReply) {
-      setTimeout(() => {
-        setMessages((prev) => [...prev, { role: "assistant", content: demoReply }]);
-        setIsLoading(false);
-        setShowQuickActions(true);
-      }, 1000);
-    } else {
-      setIsLoading(false);
-    }
-  }, [isLoading]);
-
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || isLoading) return;
 
@@ -172,12 +127,11 @@ const ChatWidget = () => {
         setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
       }
     } catch {
-      // Fallback: demo model doesn't know what to say
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Hmm, esse modelo de exemplo ainda nao sabe o que responder nessa situacao! 🤔\n\nEste e apenas um **ambiente demonstrativo** do FLOW-1. No modelo real, eu teria todas as respostas treinadas.\n\n**Gostaria de chamar um atendente humano?** Basta clicar no botao abaixo ou digitar que quer falar com um humano! 🧑‍💼",
+          content: "Desculpe, estou com dificuldade para responder no momento. 😔\n\nPor favor, tente novamente em alguns instantes ou **fale com um atendente humano** pelo nosso WhatsApp: **(73) 99999-9999** 📱",
         },
       ]);
       setShowQuickActions(true);
@@ -185,6 +139,12 @@ const ChatWidget = () => {
       setIsLoading(false);
     }
   }, [messages, isLoading, userInfo, humanRequested]);
+
+  // Handle quick action button click - sends through the API like free text
+  const handleQuickAction = useCallback((action: typeof QUICK_ACTIONS[0]) => {
+    if (isLoading) return;
+    sendMessage(action.msg);
+  }, [isLoading, sendMessage]);
 
   const calcularFrete = useCallback(async () => {
     if (!cepInput.trim() || isLoading) return;
@@ -235,7 +195,7 @@ const ChatWidget = () => {
               <Bot className="w-3.5 h-3.5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Flow ⚡</p>
+              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Luna 🌙</p>
               <p className="text-xs text-gray-600 leading-relaxed mt-0.5 font-medium">
                 Precisa de ajuda com <strong className="text-[hsl(213,80%,45%)]">oculos ou lentes</strong>? Fale comigo! 👓
               </p>
@@ -261,7 +221,7 @@ const ChatWidget = () => {
               <h3 className="text-sm font-bold leading-tight">Otica Itamaraju</h3>
               <span className="text-[10px] sm:text-[11px] opacity-80 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                Assistente FLOW-1 (Demo)
+                Luna 🌙 Online
               </span>
             </div>
           </div>
@@ -278,7 +238,7 @@ const ChatWidget = () => {
                 <Bot className="w-4 h-4" />
               </div>
               <div className="bg-gray-50 border border-gray-200/80 rounded-2xl rounded-tl-md px-3.5 py-3 text-[13px] text-gray-700 leading-relaxed">
-                Ola! Eu sou o <strong>Flow</strong> ⚡
+                Ola! Eu sou a <strong>Luna</strong> 🌙
                 <br /><br />
                 Antes de comecarmos, preciso de algumas informacoes para te atender melhor:
               </div>
@@ -349,9 +309,9 @@ const ChatWidget = () => {
                   <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="bg-white border border-gray-200/80 rounded-2xl rounded-tl-md px-3 sm:px-3.5 py-2.5 sm:py-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed shadow-sm">
-                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> ⚡, assistente virtual da <strong>Otica Itamaraju</strong>.
+                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou a <strong>Luna</strong> 🌙, assistente virtual da <strong>Otica Itamaraju</strong>.
                   <br /><br />
-                  Este e um <strong>ambiente demonstrativo</strong>. Os botoes abaixo mostram exemplos de interacao. Para testar a IA, <strong>faca uma pergunta livre</strong>! 😊
+                  Como posso te ajudar? Use os botoes abaixo ou <strong>faca uma pergunta livre</strong>! 😊
                 </div>
               </div>
 
