@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(tree -L 3 -I 'node_modules|dist|.git' /Users/alandias/Desktop/joao_exemplo 2>/dev/null || find /Users/alandias/Desktop/joao_exemplo -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/dist/*' -type d | head -40)",
+      "Bash(npm install:*)",
+      "Bash(cd /Users/alandias/Desktop/joao_exemplo && npx vite --host 2>&1 | head -20)",
+      "Bash(curl -s http://localhost:3001/api/health)",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Quais lentes vocês têm?\"}]}' | python3 -m json.tool 2>/dev/null || curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Quais lentes vocês têm?\"}]}')",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Me dá uma receita de bolo de chocolate\"}]}' | python3 -m json.tool)",
+      "Bash(open http://localhost:8080)",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Quanto custa o frete para minha cidade?\"}]}' | python3 -m json.tool)",
+      "Bash(curl -s -X POST http://localhost:3001/api/frete -H \"Content-Type: application/json\" -d '{\"cep\":\"45836000\"}' | python3 -m json.tool)",
+      "Bash(lsof -ti:3001 | xargs kill -9 2>/dev/null; lsof -ti:8080 | xargs kill -9 2>/dev/null; sleep 1)",
+      "Bash(node server.js)",
+      "Bash(cd /Users/alandias/Desktop/joao_exemplo && npx vite --host)",
+      "Bash(sleep 3 && curl -s http://localhost:3001/api/health && echo \" | \" && curl -s -o /dev/null -w \"Vite: %{http_code}\" http://localhost:8080)",
+      "Bash(lsof -ti:3001 | xargs kill -9 2>/dev/null; lsof -ti:8080 | xargs kill -9 2>/dev/null; sleep 1 && echo \"Portas liberadas\")",
+      "Bash(sleep 4 && curl -s http://localhost:3001/api/health && echo \" | \" && curl -s -o /dev/null -w \"Vite: %{http_code}\" http://localhost:8080)",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Quero falar com um atendente humano\"}],\"userInfo\":{\"nome\":\"João Silva\",\"telefone\":\"73999998888\",\"email\":\"joao@teste.com\"}}' | python3 -m json.tool)",
+      "Bash(curl -s http://localhost:3001/api/leads | python3 -m json.tool)",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\n    \"messages\": [\n      {\"role\":\"user\",\"content\":\"Oi, quero saber sobre lentes multifocais\"},\n      {\"role\":\"assistant\",\"content\":\"Olá! Temos duas opções de lentes multifocais:\\\\n\\\\n**Lente Multifocal Premium** - R$ 489,90\\\\n**Lente Multifocal Digital** - R$ 599,90\\\\n\\\\nQual te interessa mais?\"},\n      {\"role\":\"user\",\"content\":\"Achei interessante a premium, mas tenho umas dúvidas específicas. Quero falar com um atendente humano por favor\"}\n    ],\n    \"userInfo\": {\n      \"nome\": \"Maria Santos\",\n      \"telefone\": \"\\(73\\) 98888-7777\",\n      \"email\": \"maria@email.com\"\n    }\n  }' | python3 -m json.tool)",
+      "Bash(curl -s -X POST http://localhost:3001/api/chat -H \"Content-Type: application/json\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Oi, quero saber sobre lentes multifocais\"},{\"role\":\"assistant\",\"content\":\"Temos a Multifocal Premium R$ 489,90 e a Digital R$ 599,90\"},{\"role\":\"user\",\"content\":\"Interessante, mas tenho duvidas especificas. Quero falar com um atendente humano\"}],\"userInfo\":{\"nome\":\"Maria Santos\",\"telefone\":\"\\(73\\) 98888-7777\",\"email\":\"maria@email.com\"}}')"
+    ]
+  }
+}
