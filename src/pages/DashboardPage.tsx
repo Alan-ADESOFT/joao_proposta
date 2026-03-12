@@ -28,6 +28,7 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [originFilter, setOriginFilter] = useState<"website" | "whatsapp">("website");
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
@@ -207,51 +208,81 @@ const DashboardPage = () => {
             <>
               {/* Lead list */}
               <div className={`w-full sm:w-80 lg:w-96 border-r border-gray-200/80 bg-white flex flex-col shrink-0 ${selectedLead ? "hidden sm:flex" : "flex"}`}>
-                {/* Search */}
+                {/* Search & Filter */}
                 <div className="p-4 border-b border-gray-100/80 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
-                  <div className="relative group">
+                  <div className="relative group mb-4">
                     <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[hsl(213,80%,45%)] transition-colors" />
                     <input type="text" placeholder="Buscar contatos..." value={search} onChange={(e) => setSearch(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 text-sm border-2 border-gray-100 rounded-xl outline-none focus:border-[hsl(213,80%,45%)] focus:ring-4 focus:ring-[hsl(213,80%,45%)]/10 transition-all bg-gray-50/50 focus:bg-white placeholder:text-gray-400 font-medium" />
+                  </div>
+                  
+                  {/* Origin Toggle */}
+                  <div className="flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50">
+                    <button 
+                      onClick={() => { setOriginFilter("website"); setSelectedLead(null); }}
+                      className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 ${originFilter === "website" ? "bg-white text-[hsl(213,80%,45%)] shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-gray-200/50" : "text-gray-500 hover:text-gray-700 hover:bg-white/50"}`}
+                    >
+                      <Bot className="w-3.5 h-3.5" /> Site Mkt.
+                    </button>
+                    <button 
+                      onClick={() => { setOriginFilter("whatsapp"); setSelectedLead(null); }}
+                      className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 ${originFilter === "whatsapp" ? "bg-white text-emerald-600 shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-gray-200/50" : "text-gray-500 hover:text-gray-700 hover:bg-white/50"}`}
+                    >
+                      <Smartphone className="w-3.5 h-3.5" /> WhatsApp
+                    </button>
                   </div>
                 </div>
 
                 {/* List */}
                 <div className="flex-1 overflow-y-auto">
-                  {filteredLeads.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center">
+                  {originFilter === "whatsapp" ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center p-8 animate-in fade-in zoom-in-95 duration-300">
+                      <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-4 border border-emerald-100/80 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                        <Smartphone className="w-8 h-8 text-emerald-500" />
+                      </div>
+                      <p className="text-sm font-bold text-gray-800">Integração WhatsApp</p>
+                      <p className="text-xs text-gray-500 mt-2 leading-relaxed">
+                        A captação do histórico completo via WhatsApp Oficial será disponibilizada em breve.
+                      </p>
+                      <span className="mt-5 px-3 py-1 bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-widest rounded-full border border-gray-200/80">
+                        Em Desenvolvimento
+                      </span>
+                    </div>
+                  ) : filteredLeads.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center animate-in fade-in duration-300">
                       <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
                         <Inbox className="w-8 h-8 opacity-40" />
                       </div>
                       <p className="text-sm font-semibold text-gray-700">Caixa de entrada vazia</p>
                       <p className="text-xs mt-1 leading-relaxed text-gray-500 max-w-[200px]">Os chamados de atendimento humano aparecerão aqui em tempo real.</p>
                     </div>
-                  )}
-                  {filteredLeads.map((lead) => (
-                    <button key={lead.id} onClick={() => handleSelectLead(lead)}
-                      className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50/80 transition-all duration-200 relative group ${selectedLead?.id === lead.id ? "bg-blue-50/50" : ""} ${!lead.lido ? "bg-gradient-to-r from-blue-50/30 to-transparent" : ""}`}>
-                      
-                      {selectedLead?.id === lead.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-[hsl(213,80%,45%)] rounded-r-md"></div>}
-                      
-                      <div className="flex items-start gap-3.5">
-                        <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 text-sm font-bold shadow-sm ${!lead.lido ? "bg-gradient-to-br from-[hsl(213,80%,45%)] to-[hsl(213,80%,35%)] text-white" : "bg-gray-100 text-gray-500 border border-gray-200"}`}>
-                          {lead.nome.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="flex-1 min-w-0 pr-2">
-                          <div className="flex items-center justify-between mb-0.5">
-                            <p className={`text-sm truncate ${!lead.lido ? "font-bold text-gray-900" : "font-semibold text-gray-800"}`}>{lead.nome}</p>
-                            {!lead.lido && <span className="w-2.5 h-2.5 rounded-full bg-[hsl(213,80%,45%)] shrink-0 shadow-[0_0_8px_hsl(213,80%,45%,0.6)]" />}
+                  ) : (
+                    filteredLeads.map((lead) => (
+                      <button key={lead.id} onClick={() => handleSelectLead(lead)}
+                        className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gray-50/80 transition-all duration-200 relative group ${selectedLead?.id === lead.id ? "bg-blue-50/50" : ""} ${!lead.lido ? "bg-gradient-to-r from-blue-50/30 to-transparent" : ""}`}>
+                        
+                        {selectedLead?.id === lead.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-[hsl(213,80%,45%)] rounded-r-md"></div>}
+                        
+                        <div className="flex items-start gap-3.5">
+                          <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 text-sm font-bold shadow-sm ${!lead.lido ? "bg-gradient-to-br from-[hsl(213,80%,45%)] to-[hsl(213,80%,35%)] text-white" : "bg-gray-100 text-gray-500 border border-gray-200"}`}>
+                            {lead.nome.charAt(0).toUpperCase()}
                           </div>
-                          <p className={`text-xs truncate ${!lead.lido ? "text-gray-600 font-medium" : "text-gray-500"}`}>{lead.email}</p>
-                          <p className="text-[10px] text-gray-400 mt-1 flex items-center gap-1 font-medium">
-                            <Clock className="w-3 h-3" />
-                            {new Date(lead.criadoEm).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                          </p>
+                          <div className="flex-1 min-w-0 pr-2">
+                            <div className="flex items-center justify-between mb-0.5">
+                              <p className={`text-sm truncate ${!lead.lido ? "font-bold text-gray-900" : "font-semibold text-gray-800"}`}>{lead.nome}</p>
+                              {!lead.lido && <span className="w-2.5 h-2.5 rounded-full bg-[hsl(213,80%,45%)] shrink-0 shadow-[0_0_8px_hsl(213,80%,45%,0.6)]" />}
+                            </div>
+                            <p className={`text-xs truncate ${!lead.lido ? "text-gray-600 font-medium" : "text-gray-500"}`}>{lead.email}</p>
+                            <p className="text-[10px] text-gray-400 mt-1 flex items-center gap-1 font-medium">
+                              <Clock className="w-3 h-3" />
+                              {new Date(lead.criadoEm).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                            </p>
+                          </div>
+                          <ChevronRight className={`w-4 h-4 text-gray-300 shrink-0 hidden sm:block mt-3 transition-transform ${selectedLead?.id === lead.id ? "text-[hsl(213,80%,45%)] translate-x-0.5" : "group-hover:translate-x-0.5"}`} />
                         </div>
-                        <ChevronRight className={`w-4 h-4 text-gray-300 shrink-0 hidden sm:block mt-3 transition-transform ${selectedLead?.id === lead.id ? "text-[hsl(213,80%,45%)] translate-x-0.5" : "group-hover:translate-x-0.5"}`} />
-                      </div>
-                    </button>
-                  ))}
+                      </button>
+                    ))
+                  )}
                 </div>
               </div>
 

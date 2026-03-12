@@ -25,13 +25,23 @@ interface UserInfo {
 
 type ChatStep = "form" | "chat" | "frete_input" | "frete_result";
 
+// Demo responses for quick action buttons
+const DEMO_RESPONSES: Record<string, string> = {
+  "👓 Lentes": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu teria todas as informacoes sobre lentes disponiveis, precos e recomendacoes personalizadas.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+  "🕶️ Armacoes": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu mostraria todo o catalogo de armacoes com modelos, marcas e precos atualizados.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+  "💳 Pagamento": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu informaria todas as formas de pagamento: cartao, PIX, boleto, parcelamento e condicoes especiais.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+  "🔄 Trocas": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu explicaria toda a politica de trocas e devolucoes com prazos e procedimentos.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+  "📍 Localizacao": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu mostraria o endereco completo, horario de funcionamento e ate um link do mapa.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+  "🧑 Atendente": "Isso e apenas um **exemplo demonstrativo** do assistente FLOW-1! 😊\n\nNo modelo real, eu encaminharia voce diretamente para um atendente humano via WhatsApp.\n\n**Faca uma pergunta livre** para continuar testando a conversa! 💬",
+};
+
 const QUICK_ACTIONS = [
-  { label: "👓 Lentes", msg: "Quais lentes vocês têm disponíveis e os preços?" },
-  { label: "🕶️ Armações", msg: "Quais armações vocês têm? Quero ver os modelos e preços." },
-  { label: "💳 Pagamento", msg: "Quais as formas de pagamento disponíveis?" },
+  { label: "👓 Lentes", msg: "Quais lentes voces tem disponiveis e os precos?" },
+  { label: "🕶️ Armacoes", msg: "Quais armacoes voces tem? Quero ver os modelos e precos." },
+  { label: "💳 Pagamento", msg: "Quais as formas de pagamento disponiveis?" },
   { label: "📦 Calcular Frete", msg: "Quero calcular o frete de entrega." },
-  { label: "🔄 Trocas", msg: "Como funciona a troca e devolução?" },
-  { label: "📍 Localização", msg: "Onde fica a loja e qual o horário?" },
+  { label: "🔄 Trocas", msg: "Como funciona a troca e devolucao?" },
+  { label: "📍 Localizacao", msg: "Onde fica a loja e qual o horario?" },
   { label: "🧑 Atendente", msg: "Quero falar com um atendente humano." },
 ];
 
@@ -73,7 +83,7 @@ const ChatWidget = () => {
     const errors: Partial<UserInfo> = {};
     if (!userInfo.nome.trim()) errors.nome = "Informe seu nome";
     if (!userInfo.telefone.trim()) errors.telefone = "Informe seu telefone";
-    if (!userInfo.email.trim() || !userInfo.email.includes("@")) errors.email = "Informe um e-mail válido";
+    if (!userInfo.email.trim() || !userInfo.email.includes("@")) errors.email = "Informe um e-mail valido";
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -82,6 +92,41 @@ const ChatWidget = () => {
     if (!validateForm()) return;
     setStep("chat");
   };
+
+  // Handle quick action button click with demo response
+  const handleQuickAction = useCallback((action: typeof QUICK_ACTIONS[0]) => {
+    if (isLoading) return;
+
+    const userMsg: Message = { role: "user", content: action.msg };
+    setMessages((prev) => [...prev, userMsg]);
+    setShowQuickActions(false);
+    setIsLoading(true);
+
+    // Special case: frete still goes through the normal flow
+    if (action.label === "📦 Calcular Frete") {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "Claro! Vou te ajudar a calcular o frete. 📦\nDigite seu CEP abaixo:" },
+        ]);
+        setStep("frete_input");
+        setIsLoading(false);
+      }, 800);
+      return;
+    }
+
+    // Show demo response for other buttons
+    const demoReply = DEMO_RESPONSES[action.label];
+    if (demoReply) {
+      setTimeout(() => {
+        setMessages((prev) => [...prev, { role: "assistant", content: demoReply }]);
+        setIsLoading(false);
+        setShowQuickActions(true);
+      }, 1000);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || isLoading) return;
@@ -127,10 +172,15 @@ const ChatWidget = () => {
         setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
       }
     } catch {
+      // Fallback: demo model doesn't know what to say
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Ops, tive um probleminha! 😅 Tente novamente ou WhatsApp: **(73) 99999-9999**." },
+        {
+          role: "assistant",
+          content: "Hmm, esse modelo de exemplo ainda nao sabe o que responder nessa situacao! 🤔\n\nEste e apenas um **ambiente demonstrativo** do FLOW-1. No modelo real, eu teria todas as respostas treinadas.\n\n**Gostaria de chamar um atendente humano?** Basta clicar no botao abaixo ou digitar que quer falar com um humano! 🧑‍💼",
+        },
       ]);
+      setShowQuickActions(true);
     } finally {
       setIsLoading(false);
     }
@@ -151,7 +201,7 @@ const ChatWidget = () => {
       setFreteOpcoes(data.opcoes);
       setStep("frete_result");
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Não consegui calcular o frete. Tente novamente! 📦" }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Nao consegui calcular o frete. Tente novamente! 📦" }]);
       setStep("chat");
     } finally {
       setIsLoading(false);
@@ -187,7 +237,7 @@ const ChatWidget = () => {
             <div>
               <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Flow ⚡</p>
               <p className="text-xs text-gray-600 leading-relaxed mt-0.5 font-medium">
-                Precisa de ajuda com <strong className="text-[hsl(213,80%,45%)]">óculos ou lentes</strong>? Fale comigo! 👓
+                Precisa de ajuda com <strong className="text-[hsl(213,80%,45%)]">oculos ou lentes</strong>? Fale comigo! 👓
               </p>
             </div>
           </div>
@@ -204,14 +254,14 @@ const ChatWidget = () => {
         {/* Header */}
         <div className="bg-gradient-to-r from-[hsl(213,80%,22%)] to-[hsl(213,80%,35%)] text-white px-4 sm:px-5 py-3.5 sm:py-5 flex items-center justify-between shrink-0 shadow-md z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white flex items-center justify-center ring-2 ring-white/20 shadow-sm overflow-hidden p-1.5">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center ring-2 ring-white/20 shadow-sm overflow-hidden p-1.5">
               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h3 className="text-sm font-bold leading-tight">Ótica Itamaraju</h3>
+              <h3 className="text-sm font-bold leading-tight">Otica Itamaraju</h3>
               <span className="text-[10px] sm:text-[11px] opacity-80 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                Assistente Ótica Itamaraju
+                Assistente FLOW-1 (Demo)
               </span>
             </div>
           </div>
@@ -228,9 +278,9 @@ const ChatWidget = () => {
                 <Bot className="w-4 h-4" />
               </div>
               <div className="bg-gray-50 border border-gray-200/80 rounded-2xl rounded-tl-md px-3.5 py-3 text-[13px] text-gray-700 leading-relaxed">
-                Olá! Eu sou o <strong>Flow</strong> ⚡
+                Ola! Eu sou o <strong>Flow</strong> ⚡
                 <br /><br />
-                Antes de começarmos, preciso de algumas informações para te atender melhor:
+                Antes de comecarmos, preciso de algumas informacoes para te atender melhor:
               </div>
             </div>
 
@@ -243,7 +293,7 @@ const ChatWidget = () => {
                   type="text"
                   value={userInfo.nome}
                   onChange={(e) => { setUserInfo((p) => ({ ...p, nome: e.target.value })); setFormErrors((p) => ({ ...p, nome: undefined })); }}
-                  placeholder="Ex: João Silva"
+                  placeholder="Ex: Joao Silva"
                   className={`w-full border rounded-xl px-3.5 py-2.5 text-sm outline-none transition-all ${formErrors.nome ? "border-red-300 bg-red-50/50" : "border-gray-200 focus:border-[hsl(213,80%,45%)] focus:ring-2 focus:ring-[hsl(213,80%,45%)]/15"}`}
                 />
                 {formErrors.nome && <p className="text-[11px] text-red-500 mt-1">{formErrors.nome}</p>}
@@ -284,7 +334,7 @@ const ChatWidget = () => {
               <MessageCircle className="w-4 h-4" /> Iniciar Conversa
             </button>
             <p className="text-[10px] text-gray-400 text-center mt-2.5">
-              Seus dados são usados apenas para contato caso necessário.
+              Seus dados sao usados apenas para contato caso necessario.
             </p>
           </div>
         )}
@@ -299,9 +349,9 @@ const ChatWidget = () => {
                   <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="bg-white border border-gray-200/80 rounded-2xl rounded-tl-md px-3 sm:px-3.5 py-2.5 sm:py-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed shadow-sm">
-                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> ⚡, assistente virtual da <strong>Ótica Itamaraju</strong>.
+                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> ⚡, assistente virtual da <strong>Otica Itamaraju</strong>.
                   <br /><br />
-                  Estamos em <strong>Itamaraju-BA</strong>, com mais de 15 anos cuidando da visão. Como posso te ajudar? 😊
+                  Este e um <strong>ambiente demonstrativo</strong>. Os botoes abaixo mostram exemplos de interacao. Para testar a IA, <strong>faca uma pergunta livre</strong>! 😊
                 </div>
               </div>
 
@@ -309,7 +359,7 @@ const ChatWidget = () => {
               {showQuickActions && step === "chat" && (
                 <div className="flex flex-wrap gap-1.5 pl-9 sm:pl-10 animate-in fade-in duration-300">
                   {QUICK_ACTIONS.map((a) => (
-                    <button key={a.label} onClick={() => sendMessage(a.msg)}
+                    <button key={a.label} onClick={() => handleQuickAction(a)}
                       className="bg-white border border-[hsl(213,80%,88%)] rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-[11px] font-medium text-[hsl(213,80%,40%)] hover:bg-[hsl(213,80%,45%)] hover:text-white hover:border-[hsl(213,80%,45%)] transition-all duration-200 hover:-translate-y-px shadow-sm">
                       {a.label}
                     </button>
@@ -369,7 +419,7 @@ const ChatWidget = () => {
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white"><Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4" /></div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-emerald-800">Opções de Entrega</p>
+                        <p className="text-xs sm:text-sm font-semibold text-emerald-800">Opcoes de Entrega</p>
                         <p className="text-[10px] sm:text-[11px] text-emerald-600">CEP: {freteCep}</p>
                       </div>
                     </div>
@@ -377,14 +427,14 @@ const ChatWidget = () => {
                       {freteOpcoes.map((op) => (
                         <div key={op.tipo} className="bg-white rounded-xl p-2.5 sm:p-3 border border-emerald-100">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className={`text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full ${op.tipo === "SEDEX" ? "bg-orange-100 text-orange-700" : op.tipo === "Grátis" ? "bg-emerald-100 text-emerald-700" : "bg-blue-100 text-blue-700"}`}>
+                            <span className={`text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full ${op.tipo === "SEDEX" ? "bg-orange-100 text-orange-700" : op.tipo === "Gratis" ? "bg-emerald-100 text-emerald-700" : "bg-blue-100 text-blue-700"}`}>
                               {op.tipo}
                             </span>
                             <span className="text-xs sm:text-sm font-bold text-gray-800">{op.preco}</span>
                           </div>
                           <div className="flex items-center gap-2 sm:gap-3 mt-1.5 flex-wrap">
                             <span className="text-[10px] sm:text-[11px] text-gray-500 flex items-center gap-1"><Clock className="w-3 h-3" />{op.prazo}</span>
-                            <span className="text-[10px] sm:text-[11px] text-gray-500">Previsão: <strong>{op.previsao}</strong></span>
+                            <span className="text-[10px] sm:text-[11px] text-gray-500">Previsao: <strong>{op.previsao}</strong></span>
                           </div>
                           {op.condicao && <span className="text-[10px] text-emerald-600 font-medium mt-1 inline-block">✨ {op.condicao}</span>}
                         </div>
@@ -416,7 +466,7 @@ const ChatWidget = () => {
               <div className="flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border-t border-gray-100 bg-white shrink-0">
                 <input ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }}
-                  placeholder="Digite sua mensagem..." disabled={isLoading}
+                  placeholder="Faca uma pergunta livre..." disabled={isLoading}
                   className="flex-1 border border-gray-200 rounded-full px-3.5 sm:px-4 py-2 sm:py-2.5 text-sm outline-none focus:border-[hsl(213,80%,45%)] focus:ring-2 focus:ring-[hsl(213,80%,45%)]/20 transition-all bg-gray-50/50 focus:bg-white" />
                 <button onClick={() => sendMessage(input)} disabled={!input.trim() || isLoading}
                   className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-[hsl(213,80%,45%)] to-[hsl(213,80%,35%)] text-white flex items-center justify-center hover:shadow-lg disabled:opacity-40 transition-all duration-200 hover:scale-105 shadow-md" aria-label="Enviar">
