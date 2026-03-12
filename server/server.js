@@ -16,6 +16,36 @@ app.use(express.json());
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
+// ========== Rate limiting ==========
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minuto
+const RATE_LIMIT_MAX = 10; // max 10 requisicoes por minuto por IP
+
+function rateLimit(req, res, next) {
+  const ip = req.headers["x-forwarded-for"] || req.ip;
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now - entry.start > RATE_LIMIT_WINDOW) {
+    rateLimitMap.set(ip, { start: now, count: 1 });
+    return next();
+  }
+
+  entry.count++;
+  if (entry.count > RATE_LIMIT_MAX) {
+    return res.status(429).json({ error: "Muitas requisições. Tente novamente em 1 minuto." });
+  }
+  next();
+}
+
+// Limpa IPs antigos a cada 5 minutos
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitMap) {
+    if (now - entry.start > RATE_LIMIT_WINDOW * 2) rateLimitMap.delete(ip);
+  }
+}, 5 * 60 * 1000);
+
 // ========== In-memory leads storage ==========
 const leads = [];
 
@@ -52,13 +82,13 @@ const CATALOGO = `
 - WhatsApp: (73) 99999-9999 | Tel: (73) 3281-0000
 `;
 
-const SYSTEM_PROMPT = `Você é a **Luna** 🌙, assistente virtual da **Ótica Itamaraju** — referência em Itamaraju-BA, com 15+ anos no mercado óptico.
+const SYSTEM_PROMPT = `Você é o **Flow** ⚡, assistente virtual da **Ótica Itamaraju** — referência em Itamaraju-BA, com 15+ anos no mercado óptico.
 
 ## EMPRESA
 Av. Cinquentenário, 1200 - Centro, Itamaraju-BA. Especializada em lentes, armações de grau e óculos de sol. Missão: cuidar da visão com excelência e carinho.
 
 ## PERSONALIDADE
-- Nome: Luna 🌙 | Simpática, acolhedora, profissional
+- Nome: Flow ⚡ | Simpático, acolhedor, profissional
 - Linguagem acessível, como amigo | Emojis com moderação
 
 ## REGRAS
@@ -100,7 +130,7 @@ const tools = [
 ];
 
 // ========== Chat route ==========
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat", rateLimit, async (req, res) => {
   try {
     const { messages, userInfo } = req.body;
     if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: "messages obrigatório" });
@@ -220,8 +250,8 @@ app.patch("/api/leads/:id/read", (req, res) => {
 
 // ========== Health ==========
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", bot: "Luna", leads: leads.length });
+  res.json({ status: "ok", bot: "Flow", leads: leads.length });
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`🌙 Luna API em http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`⚡ Flow API em http://localhost:${PORT}`));

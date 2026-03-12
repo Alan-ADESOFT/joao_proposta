@@ -36,12 +36,21 @@ const QUICK_ACTIONS = [
 ];
 
 const API_URL = import.meta.env.VITE_CHAT_API_URL || "";
+const MAX_MESSAGES_PER_SESSION = 20;
+const STORAGE_KEY = "flow_chat_user";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
   const [step, setStep] = useState<ChatStep>("form");
-  const [userInfo, setUserInfo] = useState<UserInfo>({ nome: "", telefone: "", email: "" });
+  const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : { nome: "", telefone: "", email: "" };
+    } catch {
+      return { nome: "", telefone: "", email: "" };
+    }
+  });
   const [formErrors, setFormErrors] = useState<Partial<UserInfo>>({});
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -51,6 +60,7 @@ const ChatWidget = () => {
   const [freteOpcoes, setFreteOpcoes] = useState<FreteOption[]>([]);
   const [freteCep, setFreteCep] = useState("");
   const [humanRequested, setHumanRequested] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const cepInputRef = useRef<HTMLInputElement>(null);
@@ -58,6 +68,19 @@ const ChatWidget = () => {
   useEffect(() => {
     const timer = setTimeout(() => setShowInvite(true), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Check if user data exists in localStorage and skip form
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.nome && parsed.telefone && parsed.email) {
+          setStep("chat");
+        }
+      }
+    } catch { /* ignore */ }
   }, []);
 
   useEffect(() => {
@@ -80,11 +103,28 @@ const ChatWidget = () => {
 
   const handleStartChat = () => {
     if (!validateForm()) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(userInfo));
+    } catch { /* ignore */ }
     setStep("chat");
   };
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || isLoading) return;
+
+    if (messageCount >= MAX_MESSAGES_PER_SESSION) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", content: text.trim() },
+        {
+          role: "assistant",
+          content: "Voce atingiu o limite de mensagens desta sessao. 😊\n\nPara continuar, **fale com nossa equipe** pelo WhatsApp: **(73) 99999-9999** 📱\n\nOu recarregue a pagina para iniciar uma nova sessao.",
+        },
+      ]);
+      setInput("");
+      setShowQuickActions(false);
+      return;
+    }
 
     const userMsg: Message = { role: "user", content: text.trim() };
     const newMessages = [...messages, userMsg];
@@ -92,6 +132,7 @@ const ChatWidget = () => {
     setInput("");
     setShowQuickActions(false);
     setIsLoading(true);
+    setMessageCount((c) => c + 1);
 
     try {
       const res = await fetch(`${API_URL}/api/chat`, {
@@ -195,7 +236,7 @@ const ChatWidget = () => {
               <Bot className="w-3.5 h-3.5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Luna 🌙</p>
+              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Flow ⚡</p>
               <p className="text-xs text-gray-600 leading-relaxed mt-0.5 font-medium">
                 Precisa de ajuda com <strong className="text-[hsl(213,80%,45%)]">oculos ou lentes</strong>? Fale comigo! 👓
               </p>
@@ -221,7 +262,7 @@ const ChatWidget = () => {
               <h3 className="text-sm font-bold leading-tight">Otica Itamaraju</h3>
               <span className="text-[10px] sm:text-[11px] opacity-80 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                Luna 🌙 Online
+                Flow ⚡ Online
               </span>
             </div>
           </div>
@@ -309,7 +350,7 @@ const ChatWidget = () => {
                   <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="bg-white border border-gray-200/80 rounded-2xl rounded-tl-md px-3 sm:px-3.5 py-2.5 sm:py-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed shadow-sm">
-                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou a <strong>Luna</strong> 🌙, assistente virtual da <strong>Otica Itamaraju</strong>.
+                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> 🌙, assistente virtual da <strong>Otica Itamaraju</strong>.
                   <br /><br />
                   Como posso te ajudar? Use os botoes abaixo ou <strong>faca uma pergunta livre</strong>! 😊
                 </div>
