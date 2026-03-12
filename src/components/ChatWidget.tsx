@@ -185,7 +185,7 @@ const ChatWidget = () => {
               <Bot className="w-3.5 h-3.5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Luna 🌙</p>
+              <p className="text-xs font-bold text-[hsl(213,80%,30%)]">Flow ⚡</p>
               <p className="text-xs text-gray-600 leading-relaxed mt-0.5 font-medium">
                 Precisa de ajuda com <strong className="text-[hsl(213,80%,45%)]">óculos ou lentes</strong>? Fale comigo! 👓
               </p>
@@ -228,7 +228,7 @@ const ChatWidget = () => {
                 <Bot className="w-4 h-4" />
               </div>
               <div className="bg-gray-50 border border-gray-200/80 rounded-2xl rounded-tl-md px-3.5 py-3 text-[13px] text-gray-700 leading-relaxed">
-                Olá! Eu sou a <strong>Luna</strong> 🌙
+                Olá! Eu sou o <strong>Flow</strong> ⚡
                 <br /><br />
                 Antes de começarmos, preciso de algumas informações para te atender melhor:
               </div>
@@ -299,7 +299,7 @@ const ChatWidget = () => {
                   <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="bg-white border border-gray-200/80 rounded-2xl rounded-tl-md px-3 sm:px-3.5 py-2.5 sm:py-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed shadow-sm">
-                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou a <strong>Luna</strong> 🌙, assistente virtual da <strong>Ótica Itamaraju</strong>.
+                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> ⚡, assistente virtual da <strong>Ótica Itamaraju</strong>.
                   <br /><br />
                   Estamos em <strong>Itamaraju-BA</strong>, com mais de 15 anos cuidando da visão. Como posso te ajudar? 😊
                 </div>
