@@ -253,5 +253,12 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", bot: "Flow", leads: leads.length });
 });
 
+// ========== Servir frontend (build estático) ==========
+const distPath = resolve(__dirname, "../dist");
+app.use(express.static(distPath));
+app.get("*", (_req, res) => {
+  res.sendFile(resolve(distPath, "index.html"));
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`⚡ Flow API em http://localhost:${PORT}`));
