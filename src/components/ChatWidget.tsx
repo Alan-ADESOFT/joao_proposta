@@ -26,12 +26,12 @@ interface UserInfo {
 type ChatStep = "form" | "chat" | "frete_input" | "frete_result";
 
 const QUICK_ACTIONS = [
-  { label: "👓 Lentes", msg: "Quais lentes voces tem disponiveis e os precos?" },
-  { label: "🕶️ Armacoes", msg: "Quais armacoes voces tem? Quero ver os modelos e precos." },
-  { label: "💳 Pagamento", msg: "Quais as formas de pagamento disponiveis?" },
+  { label: "👓 Lentes", msg: "Quais lentes vocês têm disponíveis e os preços?" },
+  { label: "🕶️ Armações", msg: "Quais armações vocês têm? Quero ver os modelos e preços." },
+  { label: "💳 Pagamento", msg: "Quais as formas de pagamento disponíveis?" },
   { label: "📦 Calcular Frete", msg: "Quero calcular o frete de entrega." },
-  { label: "🔄 Trocas", msg: "Como funciona a troca e devolucao?" },
-  { label: "📍 Localizacao", msg: "Onde fica a loja e qual o horario?" },
+  { label: "🔄 Trocas", msg: "Como funciona a troca e devolução?" },
+  { label: "📍 Localização", msg: "Onde fica a loja e qual o horário?" },
   { label: "🧑 Atendente", msg: "Quero falar com um atendente humano." },
 ];
 
@@ -259,7 +259,7 @@ const ChatWidget = () => {
               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h3 className="text-sm font-bold leading-tight">Otica Itamaraju</h3>
+              <h3 className="text-sm font-bold leading-tight">Ótica Itamaraju</h3>
               <span className="text-[10px] sm:text-[11px] opacity-80 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
                 Flow ⚡ Online
@@ -350,7 +350,7 @@ const ChatWidget = () => {
                   <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <div className="bg-white border border-gray-200/80 rounded-2xl rounded-tl-md px-3 sm:px-3.5 py-2.5 sm:py-3 text-xs sm:text-[13px] text-gray-700 leading-relaxed shadow-sm">
-                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> 🌙, assistente virtual da <strong>Otica Itamaraju</strong>.
+                  Oi, <strong>{userInfo.nome.split(" ")[0]}</strong>! 👋 Sou o <strong>Flow</strong> 🌙, assistente virtual da <strong>Ótica Itamaraju</strong>.
                   <br /><br />
                   Como posso te ajudar? Use os botoes abaixo ou <strong>faca uma pergunta livre</strong>! 😊
                 </div>

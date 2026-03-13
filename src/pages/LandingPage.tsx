@@ -105,7 +105,7 @@ const LandingPage = () => {
       <div className="relative z-[60] bg-amber-500/10 border-b border-amber-500/20 text-amber-200/90 px-4 py-2 sm:py-3 text-[11px] sm:text-xs flex items-center justify-center gap-3 text-center backdrop-blur-md">
         <Info className="w-4 h-4 shrink-0 text-amber-400" />
         <p>
-          <strong className="text-amber-400 font-semibold uppercase tracking-wider">Ambiente de Demonstracao:</strong> Este assistente e um modelo de prova de conceito. A pagina demonstra a arquitetura tecnologica e a experiencia do FLOW-1 em acao.
+          <strong className="text-amber-400 font-semibold uppercase tracking-wider">Ambiente de Demonstração:</strong> Este assistente é um modelo de prova de conceito. A página demonstra a arquitetura tecnológica e a experiência do FLOW-1 em ação.
         </p>
       </div>
 
@@ -114,10 +114,10 @@ const LandingPage = () => {
         <div className="container mx-auto max-w-5xl flex items-center justify-between h-16 sm:h-20 px-6 lg:px-8">
           <div className="flex items-center gap-3.5">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white flex items-center justify-center p-2 shadow-[0_0_25px_rgba(255,255,255,0.08)] animate-pulse-glow transition-all duration-300 hover:scale-105">
-              <img src="/logo.png" alt="Otica Itamaraju" className="w-full h-full object-contain" />
+              <img src="/logo.png" alt="Ótica Itamaraju" className="w-full h-full object-contain" />
             </div>
             <div className="hidden sm:block">
-              <span className="font-bold text-xl tracking-tight block">Otica Itamaraju</span>
+              <span className="font-bold text-xl tracking-tight block">Ótica Itamaraju</span>
               <span className="text-[10px] text-[hsl(213,80%,55%)] font-medium tracking-widest uppercase">Powered by FLOW TECH</span>
             </div>
           </div>
@@ -137,17 +137,17 @@ const LandingPage = () => {
         {/* Memo Header */}
         <FadeIn className="mb-12 pb-8 border-b border-white/10">
           <div className="inline-flex items-center gap-2 bg-[hsl(45,95%,55%)]/10 text-[hsl(45,95%,55%)] border border-[hsl(45,95%,55%)]/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-            <ShieldCheck className="w-3.5 h-3.5" /> Proposta Estrategica
+            <ShieldCheck className="w-3.5 h-3.5" /> Proposta Estratégica
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-4">
-            A Arquitetura da Lideranca:<br/>
+            A Arquitetura da Liderança:<br/>
             <span className="bg-gradient-to-r from-[hsl(213,80%,55%)] via-[hsl(213,80%,75%)] to-[hsl(213,80%,55%)] bg-clip-text text-transparent animate-text-shimmer font-normal">
-              Otica Itamaraju no Topo do Mercado
+              Ótica Itamaraju no Topo do Mercado
             </span>
           </h1>
           <p className="text-white/50 text-sm mb-8 flex items-center gap-2">
             <Cpu className="w-4 h-4 text-[hsl(213,80%,55%)]" />
-            <TypeWriter text="Sistema de inteligencia artificial pronto para operar..." />
+            <TypeWriter text="Sistema de inteligência artificial pronto para operar..." />
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
@@ -168,7 +168,7 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213,80%,45%)]/5 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <span className="text-white/40 block mb-1">Para</span>
-              <strong className="text-white">Joao - Otica Itamaraju</strong>
+              <strong className="text-white">João - Ótica Itamaraju</strong>
             </div>
             <div className="relative z-10">
               <span className="text-white/40 block mb-1">De</span>
@@ -180,16 +180,16 @@ const LandingPage = () => {
         {/* Copywriting Body */}
         <div className="prose prose-invert prose-lg max-w-none text-white/80 leading-relaxed font-light mb-16">
           <FadeIn delay={100}>
-            <p className="font-medium text-white text-xl">Joao, o topo nao e um lugar para todos.</p>
+            <p className="font-medium text-white text-xl">João, o topo não é um lugar para todos.</p>
           </FadeIn>
 
           <FadeIn delay={200}>
             <p>
-              Muitos empresarios se contentam em ter uma "loja que vende". Mas voce e eu sabemos que a <strong className="text-white font-medium">Otica Itamaraju</strong> nao nasceu para ser apenas mais uma. Ela nasceu para dominar a regiao, ser a referencia em tecnologia e atendimento, e construir um legado que transborda confianca.
+              Muitos empresários se contentam em ter uma "loja que vende". Mas você e eu sabemos que a <strong className="text-white font-medium">Ótica Itamaraju</strong> não nasceu para ser apenas mais uma. Ela nasceu para dominar a região, ser a referência em tecnologia e atendimento, e construir um legado que transborda confiança.
             </p>
 
             <p>
-              O e-commerce que voce construiu foi a fundacao. Agora, precisamos da <strong className="text-white">Estrutura de Elite</strong> que suporte essa ambicao sem falhas.
+              O e-commerce que você construiu foi a fundação. Agora, precisamos da <strong className="text-white">Estrutura de Elite</strong> que suporte essa ambição sem falhas.
             </p>
           </FadeIn>
 
@@ -199,16 +199,16 @@ const LandingPage = () => {
             </h3>
 
             <p>
-              Hoje, o seu maior gargalo nao e o produto, mas a friccao humana. Depender exclusivamente de vendedores para o primeiro contato digital e limitar o seu teto de vendas ao horario comercial e ao humor de uma equipe.
+              Hoje, o seu maior gargalo não é o produto, mas a fricção humana. Depender exclusivamente de vendedores para o primeiro contato digital é limitar o seu teto de vendas ao horário comercial e ao humor de uma equipe.
             </p>
 
             <p className="text-xl italic border-l-2 border-[hsl(213,80%,55%)] pl-6 my-10 text-white/90 font-serif relative">
               <span className="absolute -left-1 top-0 w-2 h-full bg-gradient-to-b from-[hsl(213,80%,55%)] to-transparent opacity-30 blur-sm" />
-              "Lideres de mercado nao 'atendem' clientes; eles orquestram experiencias impecaveis."
+              "Líderes de mercado não 'atendem' clientes; eles orquestram experiências impecáveis."
             </p>
 
             <p>
-              Apresento a <strong className="text-white font-semibold">Celula de Inteligencia FLOW-1</strong>: a unica estrutura tatica capaz de manter a Itamaraju operando com precisao cirurgica 24/7.
+              Apresento a <strong className="text-white font-semibold">Célula de Inteligência FLOW-1</strong>: a única estrutura tática capaz de manter a Ótica Itamaraju operando com precisão cirúrgica 24/7.
             </p>
           </FadeIn>
 
@@ -217,7 +217,7 @@ const LandingPage = () => {
               <CircuitBoard className="w-6 h-6 text-[hsl(213,80%,55%)] drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" /> A Engenharia da Superioridade
             </h3>
             <p>
-              A Celula FLOW-1 nao e um "bot de atendimento". E o cerebro digital da sua empresa, projetado com tres camadas de dominancia:
+              A Célula FLOW-1 não é um "bot de atendimento". É o cérebro digital da sua empresa, projetado com três camadas de dominância:
             </p>
 
             <ul className="space-y-4 my-8 list-none pl-0">
@@ -225,16 +225,16 @@ const LandingPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213,80%,45%)]/0 to-[hsl(213,80%,45%)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <span className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full bg-[hsl(213,80%,45%)]/20 text-[hsl(213,80%,55%)] flex items-center justify-center font-bold text-sm mt-0.5 group-hover:scale-110 transition-transform">1</span>
                 <div className="relative z-10">
-                  <strong className="text-white block mb-1">Onipresenca Instantanea</strong>
-                  <span className="text-sm text-white/70">No site e no WhatsApp, o cliente recebe a resposta exata no milissegundo em que o desejo de compra surge. E a cura para a ansiedade do consumidor moderno.</span>
+                  <strong className="text-white block mb-1">Onipresença Instantânea</strong>
+                  <span className="text-sm text-white/70">No site e no WhatsApp, o cliente recebe a resposta exata no milissegundo em que o desejo de compra surge. É a cura para a ansiedade do consumidor moderno.</span>
                 </div>
               </li>
               <li className="group flex items-start gap-4 bg-white/5 hover:bg-white/10 transition-all duration-500 p-5 rounded-xl border border-white/5 hover:border-[hsl(45,95%,55%)]/30 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-[hsl(45,95%,55%)]/0 to-[hsl(45,95%,55%)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <span className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full bg-[hsl(45,95%,55%)]/20 text-[hsl(45,95%,55%)] flex items-center justify-center font-bold text-sm mt-0.5 group-hover:scale-110 transition-transform">2</span>
                 <div className="relative z-10">
-                  <strong className="text-white block mb-1">Mecanismo Unico de Reconhecimento</strong>
-                  <span className="text-sm text-white/70">O sistema nao apenas responde, ele vende. Ele identifica necessidades, filtra o estoque e conduz o fechamento de forma autonoma.</span>
+                  <strong className="text-white block mb-1">Mecanismo Único de Reconhecimento</strong>
+                  <span className="text-sm text-white/70">O sistema não apenas responde, ele vende. Ele identifica necessidades, filtra o estoque e conduz o fechamento de forma autônoma.</span>
                 </div>
               </li>
               <li className="group flex items-start gap-4 bg-white/5 hover:bg-white/10 transition-all duration-500 p-5 rounded-xl border border-white/5 hover:border-emerald-500/30 relative overflow-hidden">
@@ -242,7 +242,7 @@ const LandingPage = () => {
                 <span className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm mt-0.5 group-hover:scale-110 transition-transform">3</span>
                 <div className="relative z-10">
                   <strong className="text-white block mb-1">Comando Centralizado</strong>
-                  <span className="text-sm text-white/70">Atraves do nosso Painel de Gestao, voce assume a posicao de General da operacao. Monitora os avancos e ve a empresa crescer sem aumentar a folha de pagamento.</span>
+                  <span className="text-sm text-white/70">Através do nosso Painel de Gestão, você assume a posição de General da operação. Monitora os avanços e vê a empresa crescer sem aumentar a folha de pagamento.</span>
                 </div>
               </li>
             </ul>
@@ -253,23 +253,27 @@ const LandingPage = () => {
               <Server className="w-6 h-6 text-gray-400" /> Infraestrutura e Setup
             </h3>
             <p>
-              Trabalhar com a FLOW TECH e uma decisao tatica de faturamento. Estamos substituindo custos variaveis e imprevisiveis por uma estrutura fixa, escalavel e de alta performance.
+              Trabalhar com a FLOW TECH é uma decisão tática de faturamento. Estamos substituindo custos variáveis e imprevisíveis por uma estrutura fixa, escalável e de alta performance.
             </p>
 
             <div className="bg-gradient-to-br from-[hsl(220,20%,10%)] to-[hsl(220,20%,12%)] p-6 sm:p-8 rounded-2xl border border-white/10 my-8 shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-[hsl(213,80%,45%)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
               <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[hsl(213,80%,45%)]/30 to-transparent" />
               <h4 className="text-gray-400 font-semibold mb-6 flex items-center gap-2 text-sm uppercase tracking-widest relative z-10">
-                <Binary className="w-4 h-4 text-[hsl(213,80%,55%)]" /> Custos de Implementacao
+                <Binary className="w-4 h-4 text-[hsl(213,80%,55%)]" /> Custos de Implementação
               </h4>
               <ul className="space-y-4 text-sm relative z-10">
                 <li className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-white/70">Setup Inicial e Engenharia FLOW-1</span>
+                  <span className="text-white/70">Setup Inicial e Engenharia FLOW-1 (pagamento único)</span>
                   <span className="font-mono text-white text-base">R$ 2.500</span>
                 </li>
-                <li className="flex justify-between items-center pb-2">
+                <li className="flex justify-between items-center border-b border-white/5 pb-3">
                   <span className="text-white/70">Infraestrutura Cloud Elite (Servidores AWS)</span>
-                  <span className="font-mono text-white text-base">R$ 90<span className="text-xs text-white/40 ml-1">/mes</span></span>
+                  <span className="font-mono text-white text-base">R$ 90<span className="text-xs text-white/40 ml-1">/mês</span></span>
+                </li>
+                <li className="flex justify-between items-center pb-2">
+                  <span className="text-white/70">Créditos de IA (R$ 100 = 90 a 100 interações/mês)</span>
+                  <span className="font-mono text-white text-base">R$ 100<span className="text-xs text-white/40 ml-1">/mês</span></span>
                 </li>
               </ul>
             </div>
@@ -280,12 +284,12 @@ const LandingPage = () => {
               <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[hsl(213,80%,55%)]/40 to-transparent" />
               <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-[hsl(213,80%,45%)] rounded-full blur-[80px] opacity-10 pointer-events-none" />
               <h4 className="text-[hsl(45,95%,55%)] font-semibold mb-6 flex items-center gap-2 text-sm uppercase tracking-widest">
-                 Licenca de Operacao
+                 Licença de Operação
               </h4>
               <ul className="space-y-4 mb-2 text-sm">
                 <li className="flex justify-between items-center pb-2">
-                  <span className="text-white/90 font-medium">Licenca Celula de Inteligencia FLOW-1</span>
-                  <span className="font-mono text-white text-base">R$ 600<span className="text-xs text-white/40 ml-1">/mes</span></span>
+                  <span className="text-white/90 font-medium">Licença Célula de Inteligência FLOW-1</span>
+                  <span className="font-mono text-white text-base">R$ 600<span className="text-xs text-white/40 ml-1">/mês</span></span>
                 </li>
               </ul>
             </div>
@@ -295,21 +299,21 @@ const LandingPage = () => {
             <div className="bg-[hsl(45,95%,55%)]/10 border border-[hsl(45,95%,55%)]/30 p-6 sm:p-8 rounded-2xl my-10 relative overflow-hidden">
               <div className="absolute -right-10 -top-10 w-40 h-40 bg-[hsl(45,95%,55%)] rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
               <strong className="flex items-center gap-2 text-[hsl(45,95%,55%)] mb-4 font-bold uppercase tracking-wide text-xs">
-                 <Sparkles className="w-4 h-4" /> A Decisao Estrategica do Combo (Oferta)
+                 <Sparkles className="w-4 h-4" /> A Decisão Estratégica do Combo (Oferta)
               </strong>
               <p className="text-base text-white/90 leading-relaxed">
-                Pela confianca na sua visao, unificamos a gestao do seu sistema atual com a nova Celula FLOW-1. O investimento mensal total para sustentar todo o seu ecossistema digital sera congelado em <strong className="text-white text-xl ml-1">R$ 900 /mes</strong>.
+                Pela confiança na sua visão, unificamos a gestão do seu sistema atual com a nova Célula FLOW-1. O investimento mensal total para sustentar todo o seu ecossistema digital será congelado em <strong className="text-white text-xl ml-1">R$ 900/mês</strong>.
               </p>
               <div className="mt-6 pt-6 border-t border-[hsl(45,95%,55%)]/20">
-                <p className="text-sm font-semibold text-white mb-3">Bonus Exclusivos de Ativacao:</p>
+                <p className="text-sm font-semibold text-white mb-3">Bônus Exclusivos de Ativação:</p>
                 <ul className="space-y-3 text-sm text-[hsl(45,95%,65%)]/80">
                   <li className="flex items-start gap-2.5">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[hsl(45,95%,55%)] shrink-0 shadow-[0_0_8px_hsl(45,95%,55%)]"></span>
-                    <span>Uma economia garantida de <strong>R$ 2.400 ao ano</strong>, liberando caixa para reinvestir em expansao da marca.</span>
+                    <span>Uma economia garantida de <strong>R$ 2.400 ao ano</strong>, liberando caixa para reinvestir em expansão da marca.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[hsl(45,95%,55%)] shrink-0 shadow-[0_0_8px_hsl(45,95%,55%)]"></span>
-                    <span><strong className="text-[hsl(45,95%,55%)]">Creditos Iniciais:</strong> Ativaremos sua operacao inicial com creditos de IA de elite para os primeiros 60 atendimentos.</span>
+                    <span><strong className="text-[hsl(45,95%,55%)]">Créditos Iniciais:</strong> Ativaremos sua operação inicial com créditos de IA de elite para os primeiros 60 atendimentos.</span>
                   </li>
                 </ul>
               </div>
@@ -320,10 +324,10 @@ const LandingPage = () => {
             <hr className="border-white/10 my-10" />
 
             <p className="text-xl font-medium text-white mb-2">
-              Joao, voce ja provou que tem a coragem para chegar ate aqui.
+              João, você já provou que tem a coragem para chegar até aqui.
             </p>
             <p className="mb-10 text-white/70">
-              A pergunta agora nao e se o sistema funciona, mas como a Otica Itamaraju vai lidar com o volume de vendas que essa nova escala vai gerar. A estrutura esta pronta. A estrategia esta tracada. O topo te espera.
+              A pergunta agora não é se o sistema funciona, mas como a Ótica Itamaraju vai lidar com o volume de vendas que essa nova escala vai gerar. A estrutura está pronta. A estratégia está traçada. O topo te espera.
             </p>
           </FadeIn>
         </div>
@@ -342,7 +346,7 @@ const LandingPage = () => {
 
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 relative z-10 tracking-tight">Como prefere dar a ordem de inicio?</h2>
             <p className="text-white/60 text-sm mb-10 max-w-md mx-auto relative z-10 leading-relaxed">
-              Inicie a interface demonstrativa agora e teste o motor logico que vai escalar o seu negocio.
+              Inicie a interface demonstrativa agora e teste o motor lógico que vai escalar o seu negócio.
             </p>
 
             <button
@@ -353,7 +357,7 @@ const LandingPage = () => {
               className="group/btn relative z-10 inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[hsl(213,80%,45%)] to-[hsl(213,80%,55%)] animate-gradient-shift text-white font-bold px-8 py-4 sm:py-5 rounded-xl text-base hover:brightness-110 transition-all shadow-[0_0_30px_hsl(213_80%_45%/0.4)] hover:shadow-[0_0_50px_hsl(213_80%_45%/0.6)] hover:-translate-y-1 active:translate-y-0 w-full sm:w-auto"
             >
               <MessageCircle className="w-6 h-6 group-hover/btn:rotate-12 transition-transform" />
-              Testar Celula FLOW-1
+              Testar Célula FLOW-1
               <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
             </button>
           </div>
